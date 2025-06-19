@@ -9,14 +9,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-let Markdown: any = null;
-if (Platform.OS !== 'web') {
-  Markdown = require('react-native-markdown-display').default;
-} else {
-  // @ts-ignore
-  Markdown = ({ children }: any) => <div style={{ color: '#fff', whiteSpace: 'pre-wrap' }}>{children}</div>;
-}
-
 interface UserProfile {
   birth: string;
   gender: string;
@@ -248,9 +240,7 @@ const SubSection: React.FC<{
       </View>
       <View style={styles.subSectionContent}>
         {Platform.OS !== 'web' ? (
-          <Markdown style={markdownStyles[type]}>
-            {content}
-          </Markdown>
+          <Text style={styles.webText}>{content}</Text>
         ) : (
           <Text style={styles.webText}>{content}</Text>
         )}
@@ -282,9 +272,7 @@ const RenderContent: React.FC<{
   return (
     <View style={styles.contentContainer}>
       {Platform.OS !== 'web' ? (
-        <Markdown style={markdownStyles[type]}>
-          {filteredContent}
-        </Markdown>
+        <Text style={styles.webText}>{filteredContent}</Text>
       ) : (
         <Text style={styles.webText}>{filteredContent}</Text>
       )}

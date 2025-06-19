@@ -14,7 +14,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Markdown from 'react-native-markdown-display'; // <-- Using markdown-display
 import Footer from '../components/ui/Footer';
 import { supabase } from '../lib/supabase';
 
@@ -124,64 +123,7 @@ export default function DailyReadingScreen() {
             <>
               {analysis && analysis.summary ? (
                 <View style={styles.markdownContainer}>
-                <Markdown
-                  style={{
-                    body: {
-                      color: '#fff',
-                      fontSize: 16,
-                      lineHeight: 26,
-                    },
-                    heading1: {
-                             color: '#FFB74D',
-                             fontWeight: 'bold',
-                             marginTop: 10,
-                             marginBottom: 10,
-                             fontSize: 20,
-                          },
-                          heading2: {
-                            color: '#FFB74D',
-                            fontWeight: 'bold',
-                            marginTop: 10,
-                            marginBottom: 10,
-                            fontSize: 20,
-                         },
-                         heading3: {
-                          color: '#FFB74D',
-                          fontWeight: 'bold',
-                          marginTop: 10,
-                          marginBottom: 10,
-                          fontSize: 20,
-                       },
-                    strong: {
-                      fontWeight: 'bold',
-                        color: '#FFB74D',
-                    },
-                    bullet_list: {
-                      marginLeft: 0,
-                    },
-                    list_item: {
-                      marginBottom: 6,
-                      color: '#fff',
-                    },
-                    unordered_list_icon: {
-                        color: '#FFB74D',
-                    },
-                    code_block: {
-                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                      padding: 10,
-                      borderRadius: 8,
-                      marginVertical: 10,
-                    },
-                    hr: {
-                        borderColor: '#FFB74D',
-                      borderWidth: 1,
-                      marginTop: 10,
-                      marginBottom: 10,
-                    },
-                  }}
-                >
                   {analysis.summary}
-                </Markdown>
                 </View>
               ) : (
                 <Text style={styles.analysisText}>No analysis available.</Text>

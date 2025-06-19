@@ -6,15 +6,14 @@ import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
 import {
-  ActivityIndicator,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    ActivityIndicator,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from 'react-native';
-import Markdown from 'react-native-markdown-display'; // For styled Markdown
 import Footer from '../components/ui/Footer';
 import { supabase } from '../lib/supabase';
 
@@ -205,86 +204,7 @@ export default function AskQuestionScreen() {
               multiline
               placeholderTextColor="#ccc"
             />
-            <Markdown
-              style={{
-                body: {
-                  color: '#fff',
-                  fontSize: 16,
-                  lineHeight: 26,
-                },
-                h3: {
-                  color: '#FFB74D',
-                  fontWeight: 'bold',
-                  marginTop: 16,
-                  marginBottom: 8,
-                },
-                strong: {
-                  fontWeight: 'bold',
-                  color: '#FFB74D',
-                },
-                bullet_list: {
-                  marginLeft: 0,
-                },
-                list_item: {
-                  marginBottom: 6,
-                  color: '#fff',
-                },
-                unordered_list_icon: {
-                  color: '#FFB74D',
-                },
-                link: {
-                  color: '#FFB74D', // Highlight color for links
-                  textDecorationLine: 'none', // Remove underline
-                },
-                heading1: {
-                  color: '#FFB74D',
-                  fontWeight: 'bold',
-                  marginTop: 10,
-                  marginBottom: 10,
-                  fontSize: 20,
-               },
-               heading2: {
-                 color: '#FFB74D',
-                 fontWeight: 'bold',
-                 marginTop: 10,
-                 marginBottom: 10,
-                 fontSize: 20,
-              },
-              heading3: {
-               color: '#FFB74D',
-               fontWeight: 'bold',
-               marginTop: 10,
-               marginBottom: 10,
-               fontSize: 20,
-            },
-         bold: {
-           fontWeight: 'bold',
-           color: '#FFB74D', // Bold text color
-         },
-         strong: {
-          fontWeight: 'bold',
-          color: '#FFB74D', // Bold text color
-        },
-         italic: {
-          fontStyle: 'italic',
-          color: '#FFB74D', // Italic text color
-        },
-        code_block: {
-          backgroundColor: 'rgba(255, 255, 255, 0.1)',
-          padding: 10,
-          borderRadius: 8,
-          marginVertical: 10,
-        },
-        hr: {
-          borderColor: '#FFB74D', // Change line color to orange
-          borderWidth: 1,
-          marginTop: 10,
-          marginBottom: 10,
-        },
-              }}
-            >
-              {response}
-            </Markdown>
+            <Text style={styles.responseText}>{response}</Text>
             <TouchableOpacity style={styles.askAnotherButton} onPress={reset}>
               <Ionicons name="refresh" size={24} color="#fff" />
               <Text style={styles.askAnotherButtonText}>Ask Another</Text>

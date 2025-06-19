@@ -33,7 +33,7 @@ export default function LandingScreen() {
         {/* Sign In Button */}
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('Signin')}
+          onPress={() => navigation.navigate('Profile')}
         >
           <Text style={styles.buttonText}>Sign In</Text>
         </TouchableOpacity>

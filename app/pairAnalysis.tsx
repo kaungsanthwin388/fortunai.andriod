@@ -8,25 +8,14 @@ import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
 import {
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View
+    Platform,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
 } from 'react-native';
-
-// REMOVE this line:
-// import { Platform } from 'react-native';
-
-let Markdown: any = null;
-if (Platform.OS !== 'web') {
-  Markdown = require('react-native-markdown-display').default;
-} else {
-  // @ts-ignore
-  Markdown = ({ children }: any) => <div style={{ color: '#fff', whiteSpace: 'pre-wrap' }}>{children}</div>;
-}
 
 const purposesList = [
   'Romantic Relationship',
@@ -230,9 +219,9 @@ Partner Analysis: ${JSON.stringify(partnerAnalysis)}`;
                   ))}
                 </View>
               </View>
-              <Markdown style={markdownStyles}>
+              <Text style={markdownStyles.body}>
                 {analysisText}
-              </Markdown>
+              </Text>
               <TouchableOpacity style={styles.generateButton} onPress={() => setShowResult(false)}>
                 <Ionicons name="refresh" size={20} color="#fff" style={{ marginRight: 8 }} />
                 <Text style={styles.generateButtonText}>Generate New Analysis</Text>

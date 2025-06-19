@@ -72,12 +72,12 @@ export default function ProfileScreen() {
                 <Text style={styles.profileValue}>{profile?.birth ? new Date(profile.birth).toISOString().slice(0, 10) : ''}</Text>
               </View>
               <View style={styles.profileRow}>
-                <Text style={styles.profileLabel}>Purpose</Text>
-                <Text style={styles.profileValue}>{profile?.purpose ?? ''}</Text>
+              <Text style={styles.profileLabel}>Purpose</Text>
+              <Text style={styles.profileValue}>{profile?.purpose ?? ''}</Text>
               </View>
               <View style={styles.profileRow}>
-                <Text style={styles.profileLabel}>Gender</Text>
-                <Text style={styles.profileValue}>{profile?.gender ?? ''}</Text>
+              <Text style={styles.profileLabel}>Gender</Text>
+              <Text style={styles.profileValue}>{profile?.gender ?? ''}</Text>
               </View>
             </View>
 
