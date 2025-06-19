@@ -4,10 +4,10 @@ import { BaziCalculator } from '@/lib/baziCalculator';
 import { generateFreeReading } from '@/lib/deepseek';
 import { supabase } from '@/lib/supabase';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Stack, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 let Markdown: any = null;
 if (Platform.OS !== 'web') {
@@ -335,7 +335,7 @@ const splitByHeaders = (content: string): string[] => {
 };
 
 export default function FreeAnalysisPage() {
-  const router = useRouter();
+  const navigation = useNavigation();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -355,7 +355,7 @@ export default function FreeAnalysisPage() {
       // Get authenticated user
       const { data: { user: authUser }, error: authError } = await supabase.auth.getUser();
       if (authError || !authUser) {
-        router.replace('/signin');
+        navigation.navigate('Signin');
         return;
       }
       setUser(authUser);
@@ -368,7 +368,7 @@ export default function FreeAnalysisPage() {
         .single();
 
       if (profileError || !profileData) {
-        router.replace('/complete_profile');
+        navigation.navigate('CompleteProfile');
         return;
       }
       setProfile(profileData);
@@ -497,12 +497,21 @@ export default function FreeAnalysisPage() {
   if (loading) {
     return (
       <LinearGradient colors={['#36010F', '#922407']} style={styles.container}>
-        <Stack.Screen options={{ headerShown: false }} />
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#8B5CF6" />
           <Text style={styles.loadingText}>Loading your destiny reading...</Text>
         </View>
-        <Footer />
+        <Footer
+          onPressHome={() => navigation.navigate('Dashboard')}
+          onPressPlans={() => navigation.navigate('Pricing')}
+          onPressMain={() => navigation.navigate('Landing')}
+          onPressMessages={() => navigation.navigate('Messages')}
+          onPressProfile={() => navigation.navigate('Profile')}
+          onPressFreeRead={() => navigation.navigate('FreeRead')}
+          onPressDailyReading={() => navigation.navigate('DailyReading')}
+          onPressPairAnalysis={() => navigation.navigate('PairAnalysis')}
+          onPressAskAQuestion={() => navigation.navigate('AskAQuestion')}
+        />
       </LinearGradient>
     );
   }
@@ -510,23 +519,15 @@ export default function FreeAnalysisPage() {
   if (!analysisResult?.summary) {
     return (
       <LinearGradient colors={['#36010F', '#922407']} style={styles.container}>
-        <Stack.Screen options={{ headerShown: false }} />
         <View style={styles.noReadingContainer}>
           <Text style={styles.noReadingTitle}>No Reading Available</Text>
           <TouchableOpacity
             style={styles.backToDashboard}
-            onPress={() => router.push('/dashboard')}
+            onPress={() => navigation.navigate('Dashboard')}
           >
             <Text style={styles.backToDashboardText}>Back to Dashboard</Text>
           </TouchableOpacity>
         </View>
-        {/* <Footer
-        onPressHome={() => router.replace('/dashboard')}
-        onPressPlans={() => router.replace('/pricing')}
-        onPressMain={() => router.replace('/')}
-        onPressMessages={() => router.replace('/messages')}
-        onPressProfile={() => router.replace('/profile')}
-      /> */}
       </LinearGradient>
     );
   }
@@ -543,19 +544,7 @@ export default function FreeAnalysisPage() {
 
   return (
     <LinearGradient colors={['#36010F', '#922407']} style={styles.container}>
-      <Stack.Screen options={{ headerShown: false }} />
-      
-      {/* <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="white" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Your Destiny Reading</Text>
-        <TouchableOpacity onPress={() => router.push('/dashboard')} style={styles.dashboardButton}>
-          <Text style={styles.dashboardText}>Back to Dashboard</Text>
-        </TouchableOpacity>
-      </View> */}
-
-      <ScrollView contentContainerStyle={styles.content}>
+      <View style={styles.content}>
         <View style={styles.introSection}>
           <Text style={styles.introTitle}>Your Destiny Reading</Text>
           <Text style={styles.introDescription}>
@@ -566,17 +555,14 @@ export default function FreeAnalysisPage() {
             <View style={styles.pillar}>
               <Ionicons name="person-circle" size={24} color="#FFB74D" />
               <Text style={styles.pillarTitle}>Personality Overview</Text>
-              {/* <Text style={styles.pillarDescription}>Core traits and natural tendencies</Text> */}
             </View>
             <View style={styles.pillar}>
               <Ionicons name="trending-up" size={24} color="#4ADE80" />
               <Text style={styles.pillarTitle}>Strengths & Opportunities</Text>
-              {/* <Text style={styles.pillarDescription}>SWOT analysis for personal growth</Text> */}
             </View>
             <View style={styles.pillar}>
               <Ionicons name="compass" size={24} color="#60A5FA" />
               <Text style={styles.pillarTitle}>Life Path Suggestions</Text>
-              {/* <Text style={styles.pillarDescription}>Guidance for your journey ahead</Text> */}
             </View>
           </View>
         </View>
@@ -590,19 +576,6 @@ export default function FreeAnalysisPage() {
             </View>
             <View style={styles.sectionCard}>
               <RenderContent content={personalityContent} type="summary" />
-              {/* {personalitySections.map((section, index) => {
-                const title = section.match(/###\s*(.+)/)?.[1] || `Section ${index + 1}`;
-                return (
-                  <SubSection
-                    key={index}
-                    title={title}
-                    content={section}
-                    icon="star"
-                    color="#FFB74D"
-                    type="summary"
-                  />
-                );
-              })} */}
             </View>
           </View>
         )}
@@ -617,19 +590,6 @@ export default function FreeAnalysisPage() {
             {swotContent ? (
               <>
                 <RenderContent content={swotContent} type="swot" />
-                {/* {swotSections.map((section, index) => {
-                  const title = section.match(/###\s*(.+)/)?.[1] || `Section ${index + 1}`;
-                  return (
-                    <SubSection
-                      key={index}
-                      title={title}
-                      content={section}
-                      icon="checkmark-circle"
-                      color="#4ADE80"
-                      type="swot"
-                    />
-                  );
-                })} */}
               </>
             ) : (
               <GenerateAnalysisButton
@@ -652,19 +612,6 @@ export default function FreeAnalysisPage() {
             {guidanceContent ? (
               <>
                 <RenderContent content={guidanceContent} type="special" />
-                {/* {guidanceSections.map((section, index) => {
-                  const title = section.match(/###\s*(.+)/)?.[1] || `Section ${index + 1}`;
-                  return (
-                    <SubSection
-                      key={index}
-                      title={title}
-                      content={section}
-                      icon="compass"
-                      color="#60A5FA"
-                      type="special"
-                    />
-                  );
-                })} */}
               </>
             ) : (
               <GenerateAnalysisButton
@@ -682,14 +629,18 @@ export default function FreeAnalysisPage() {
             <Text style={styles.errorText}>{error}</Text>
           </View>
         )}
-      </ScrollView>
+      </View>
 
       <Footer
-        onPressHome={() => router.replace('/dashboard')}
-        onPressPlans={() => router.replace('/pricing')}
-        onPressMain={() => router.replace('/')}
-        onPressMessages={() => router.replace('/messages')}
-        onPressProfile={() => router.replace('/profile')}
+        onPressHome={() => navigation.navigate('Dashboard')}
+        onPressPlans={() => navigation.navigate('Pricing')}
+        onPressMain={() => navigation.navigate('Landing')}
+        onPressMessages={() => navigation.navigate('Messages')}
+        onPressProfile={() => navigation.navigate('Profile')}
+        onPressFreeRead={() => navigation.navigate('FreeRead')}
+        onPressDailyReading={() => navigation.navigate('DailyReading')}
+        onPressPairAnalysis={() => navigation.navigate('PairAnalysis')}
+        onPressAskAQuestion={() => navigation.navigate('AskAQuestion')}
       />
     </LinearGradient>
   );
@@ -698,37 +649,6 @@ export default function FreeAnalysisPage() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingTop: 60,
-    paddingBottom: 20,
-    backgroundColor: 'rgba(139, 69, 19, 0.3)',
-  },
-  backButton: {
-    padding: 8,
-  },
-  headerTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: 'white',
-    flex: 1,
-    textAlign: 'center',
-  },
-  dashboardButton: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
-  },
-  dashboardText: {
-    color: 'white',
-    fontSize: 12,
-    fontWeight: '600',
   },
   loadingContainer: {
     flex: 1,
@@ -808,12 +728,6 @@ const styles = StyleSheet.create({
     marginBottom: 4,
     textAlign: 'center',
     lineHeight: 16,
-  },
-  pillarDescription: {
-    fontSize: 10,
-    color: '#9CA3AF',
-    textAlign: 'center',
-    lineHeight: 14,
   },
   analysisSection: {
     marginBottom: 40,

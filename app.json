@@ -19,18 +19,10 @@
     },
     "web": {
       "bundler": "metro",
-      "output": "static",
+      "output": "single",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": [
-      "expo-router"
-    ],
-    "experiments": {
-      "typedRoutes": true,
-      "tsconfigPaths": true
-    },
     "extra": {
-      "router": {},
       "eas": {
         "projectId": "5016aeb9-9591-41f6-89f9-ccd49c488207"
       }

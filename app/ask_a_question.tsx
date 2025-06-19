@@ -2,17 +2,17 @@
 //askaquestion.tsx
 import { BaziCalculator } from '@/lib/bazi';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    ActivityIndicator,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import Markdown from 'react-native-markdown-display'; // For styled Markdown
 import Footer from '../components/ui/Footer';
@@ -21,6 +21,7 @@ import { supabase } from '../lib/supabase';
 const DEEPSEEK_API_KEY = 'sk-8e8b3cf59fb74f49be40ce28c96ccf49'; // Replace with environment-safe method later
 
 export default function AskQuestionScreen() {
+  const navigation = useNavigation();
   const [question, setQuestion] = useState('');
   const [response, setResponse] = useState('');
   const [loading, setLoading] = useState(false);
@@ -316,11 +317,15 @@ export default function AskQuestionScreen() {
         )}
       </ScrollView>
       <Footer
-        onPressHome={() => router.replace('/dashboard')}
-        onPressPlans={() => router.replace('/pricing')}
-        onPressMain={() => router.replace('/')}
-        onPressMessages={() => router.replace('/messages')}
-        onPressProfile={() => router.replace('/profile')}
+        onPressHome={() => navigation.navigate('Dashboard')}
+        onPressPlans={() => navigation.navigate('Pricing')}
+        onPressMain={() => navigation.navigate('Landing')}
+        onPressMessages={() => navigation.navigate('Messages')}
+        onPressProfile={() => navigation.navigate('Profile')}
+        onPressFreeRead={() => navigation.navigate('FreeRead')}
+        onPressDailyReading={() => navigation.navigate('DailyReading')}
+        onPressPairAnalysis={() => navigation.navigate('PairAnalysis')}
+        onPressAskAQuestion={() => navigation.navigate('AskAQuestion')}
       />
     </LinearGradient>
   );

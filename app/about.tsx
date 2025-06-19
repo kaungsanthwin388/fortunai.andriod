@@ -1,15 +1,14 @@
 //Nay chi win
-import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView, TextInput, StyleSheet, Platform } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient'; 
-import { AntDesign, Ionicons } from '@expo/vector-icons'; 
 import Footer from '@/components/ui/Footer';
-import { useRouter } from 'expo-router';
 import { supabase } from '@/lib/supabase';
-import { AppState } from 'react-native';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient';
+import React from 'react';
+import { AppState, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const App = () => {
-  const router = useRouter();
+  const navigation = useNavigation();
   
   return (
     <LinearGradient colors={['#36010F', '#7b1e05', '#36010F']} style={{ flex: 1 }}>
@@ -37,7 +36,7 @@ const App = () => {
             <FeatureItem text="Modern AI Interpretations" />
           </View>
 
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Dashboard')}>
             <Text style={styles.buttonText}>Start Your Journey</Text>
           </TouchableOpacity>
         </View>
@@ -85,11 +84,15 @@ const App = () => {
         {/* Footer */}
         
     <Footer 
-          onPressHome={() => router.replace('/dashboard')} 
-          onPressPlans={() => router.replace('/pricing')} 
-          onPressMain={() => router.replace('/')} 
-          onPressMessages={() => router.replace('/messages')} 
-          onPressProfile={() => router.replace('/profile')} 
+          onPressHome={() => navigation.navigate('Dashboard')} 
+          onPressPlans={() => navigation.navigate('Pricing')} 
+          onPressMain={() => navigation.navigate('Landing')} 
+          onPressMessages={() => navigation.navigate('Messages')} 
+          onPressProfile={() => navigation.navigate('Profile')} 
+          onPressFreeRead={() => navigation.navigate('FreeRead')}
+          onPressDailyReading={() => navigation.navigate('DailyReading')}
+          onPressPairAnalysis={() => navigation.navigate('PairAnalysis')}
+          onPressAskAQuestion={() => navigation.navigate('AskAQuestion')}
         />
       </ScrollView>
     </LinearGradient>

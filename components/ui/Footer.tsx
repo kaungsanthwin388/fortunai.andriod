@@ -1,7 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { StyleSheet, TouchableOpacity, View, Text, Animated, FlatList } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather';
-import { Link } from 'expo-router'; // Import Link for navigation
+import { Feather as Icon } from '@expo/vector-icons';
+import React, { useEffect, useRef, useState } from 'react';
+import { Animated, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface FooterProps {
   onPressHome: () => void;
@@ -9,9 +8,25 @@ interface FooterProps {
   onPressMain: () => void;
   onPressMessages: () => void;
   onPressProfile: () => void;
+  onPressFreeRead: () => void;
+  onPressDailyReading: () => void;
+  onPressPairAnalysis: () => void;
+  onPressAskAQuestion: () => void;
 }
 
-const FortuneBoxes = ({ onClose }: { onClose: () => void }) => {
+const FortuneBoxes = ({
+  onClose,
+  onPressFreeRead,
+  onPressDailyReading,
+  onPressPairAnalysis,
+  onPressAskAQuestion,
+}: {
+  onClose: () => void;
+  onPressFreeRead: () => void;
+  onPressDailyReading: () => void;
+  onPressPairAnalysis: () => void;
+  onPressAskAQuestion: () => void;
+}) => {
   const slideAnim = useRef(new Animated.Value(-300)).current;
 
   useEffect(() => {
@@ -38,28 +53,24 @@ const FortuneBoxes = ({ onClose }: { onClose: () => void }) => {
 
       {/* Boxes */}
       <View style={styles.box1}>
-        {/* Link to dailyreading.tsx */}
-        <Link href="/(protected)/freeread" style={styles.boxLink1}>
+        <TouchableOpacity style={styles.boxLink1} onPress={onPressFreeRead}>
           <Text style={styles.boxText}>Your Free Fortune Reading</Text>
-        </Link>
+        </TouchableOpacity>
       </View>
       <View style={styles.box}>
-        {/* Link to dailyreading.tsx */}
-        <Link href="/dailyreading" style={styles.boxLink}>
+        <TouchableOpacity style={styles.boxLink} onPress={onPressDailyReading}>
           <Text style={styles.boxText}>Daily Reading (Pro)</Text>
-        </Link>
+        </TouchableOpacity>
       </View>
       <View style={styles.box}>
-        {/* Link to dailyreading.tsx */}
-        <Link href="/pairAnalysis" style={styles.boxLink}>
+        <TouchableOpacity style={styles.boxLink} onPress={onPressPairAnalysis}>
           <Text style={styles.boxText}>Pair Analysis (Pro)</Text>
-        </Link>
+        </TouchableOpacity>
       </View>
       <View style={styles.box}>
-        {/* Link to dailyreading.tsx */}
-        <Link href="/ask_a_question" style={styles.boxLink}>
+        <TouchableOpacity style={styles.boxLink} onPress={onPressAskAQuestion}>
           <Text style={styles.boxText}>Ask A Question (Pro)</Text>
-        </Link>
+        </TouchableOpacity>
       </View>
     </Animated.View>
   );
@@ -71,6 +82,10 @@ export default function Footer({
   onPressMain,
   onPressMessages,
   onPressProfile,
+  onPressFreeRead,
+  onPressDailyReading,
+  onPressPairAnalysis,
+  onPressAskAQuestion,
 }: FooterProps) {
   const [showFortuneBoxes, setShowFortuneBoxes] = useState(false);
 
@@ -81,7 +96,13 @@ export default function Footer({
   return (
     <View style={styles.footerContainer}>
       {showFortuneBoxes && (
-        <FortuneBoxes onClose={handleMainButtonPress} />
+        <FortuneBoxes 
+          onClose={handleMainButtonPress}
+          onPressFreeRead={onPressFreeRead}
+          onPressDailyReading={onPressDailyReading}
+          onPressPairAnalysis={onPressPairAnalysis}
+          onPressAskAQuestion={onPressAskAQuestion}
+        />
       )}
       <View style={styles.footer}>
         {/* Home */}

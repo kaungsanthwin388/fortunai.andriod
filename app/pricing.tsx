@@ -1,11 +1,11 @@
 // ... existing code ...//Nay chi win
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient'; 
-import Icon from 'react-native-vector-icons/Feather'; 
-import { ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
 import Footer from '@/components/ui/Footer';
+import { Feather as Icon } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
 
 
 const HeaderSection = () => {
@@ -175,7 +175,7 @@ const cardStyles = StyleSheet.create({
 });
 
 const HeroSection = () => {
-    const router = useRouter();
+    const navigation = useNavigation();
 
     return (
       <View style={heroStyles.background}>
@@ -191,7 +191,7 @@ const HeroSection = () => {
 
             <TouchableOpacity
             style={heroStyles.button}
-            onPress={() => router.replace('/dashboard')}
+            onPress={() => navigation.navigate('Dashboard')}
             >
             <Text style={heroStyles.buttonText}>Get Started For Free</Text>
           </TouchableOpacity>
@@ -256,7 +256,7 @@ const heroStyles = StyleSheet.create({
 });
 
 const CombinedScreen = () => {
-  const router = useRouter();
+  const navigation = useNavigation();
 
   return (
     <LinearGradient
@@ -273,11 +273,15 @@ const CombinedScreen = () => {
 
 
     <Footer 
-          onPressHome={() => router.replace('/dashboard')} 
-          onPressPlans={() => router.replace('/pricing')} 
-          onPressMain={() => router.replace('/')} 
-          onPressMessages={() => router.replace('/messages')} 
-          onPressProfile={() => router.replace('/profile')} 
+          onPressHome={() => navigation.navigate('Dashboard')} 
+          onPressPlans={() => navigation.navigate('Pricing')} 
+          onPressMain={() => navigation.navigate('Landing')} 
+          onPressMessages={() => navigation.navigate('Messages')} 
+          onPressProfile={() => navigation.navigate('Profile')} 
+          onPressFreeRead={() => navigation.navigate('FreeRead')}
+          onPressDailyReading={() => navigation.navigate('DailyReading')}
+          onPressPairAnalysis={() => navigation.navigate('PairAnalysis')}
+          onPressAskAQuestion={() => navigation.navigate('AskAQuestion')}
         />
    
   </ScrollView>

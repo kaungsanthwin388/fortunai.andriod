@@ -4,8 +4,8 @@ import { generateFreeReading } from '@/lib/deepseek';
 import { supabase } from '@/lib/supabase'; // Assuming supabase is configured
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Stack, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
   Platform,
@@ -87,7 +87,7 @@ const markdownStyles = {
 };
 
 export default function PairAnalysis() {
-  const router = useRouter();
+  const navigation = useNavigation();
   const [partnerName, setPartnerName] = useState('');
   const [partnerBirthDate, setPartnerBirthDate] = useState<Date | undefined>();
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -126,7 +126,7 @@ export default function PairAnalysis() {
     .single();
 
     if (!subscription || subscription.status !== 'active') {
-      router.replace('/pricing');
+      navigation.navigate('Pricing');
       return;
     }
       
@@ -212,7 +212,6 @@ Partner Analysis: ${JSON.stringify(partnerAnalysis)}`;
 
   return (
     <>
-      <Stack.Screen options={{ headerShown: false }} />
       <LinearGradient colors={['#36010F', '#922407']} style={styles.container}>
         <View style={styles.headerCard}>
           <Text style={styles.headerTitle}>Pair Analysis</Text>
@@ -337,11 +336,15 @@ Partner Analysis: ${JSON.stringify(partnerAnalysis)}`;
           )}
         </ScrollView>
         <Footer
-          onPressHome={() => router.replace('/dashboard')}
-          onPressPlans={() => router.replace('/pricing')}
-          onPressMain={() => router.replace('/')}
-          onPressMessages={() => router.replace('/messages')}
-          onPressProfile={() => router.replace('/profile')}
+          onPressHome={() => navigation.navigate('Dashboard')}
+          onPressPlans={() => navigation.navigate('Pricing')}
+          onPressMain={() => navigation.navigate('Landing')}
+          onPressMessages={() => navigation.navigate('Messages')}
+          onPressProfile={() => navigation.navigate('Profile')}
+          onPressFreeRead={() => navigation.navigate('FreeRead')}
+          onPressDailyReading={() => navigation.navigate('DailyReading')}
+          onPressPairAnalysis={() => navigation.navigate('PairAnalysis')}
+          onPressAskAQuestion={() => navigation.navigate('AskAQuestion')}
         />
       </LinearGradient>
     </>

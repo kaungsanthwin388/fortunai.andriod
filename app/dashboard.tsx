@@ -1,23 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router';
-import Footer from '../components/ui/Footer';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { supabase } from '@/lib/supabase';
-import { ActivityIndicator } from 'react-native';
-import { ImageBackground } from 'react-native';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import Footer from '../components/ui/Footer';
+
+
+import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
 
+interface Profile {
+  name: string;
+}
+
+interface Slide {
+  icon: string;
+  iconLibrary: string;
+  title: string;
+  description: string;
+}
+
 export default function Dashboard() {
-  const router = useRouter();
-  const [profile, setProfile] = useState(null);
+  const navigation = useNavigation();
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const slides = [
+  const slides: Slide[] = [
     {
-      icon: 'nuclear-outline',
+      icon: 'flash-outline',
       iconLibrary: 'Ionicons',
       title: 'AI-Powered',
       description: 'Unlock AI deep insights.'
@@ -29,7 +40,7 @@ export default function Dashboard() {
       description: 'Blend of ancient wisdom & AI'
     },
     {
-      icon: 'sparkles-outline',
+      icon: 'sparkles',
       iconLibrary: 'Ionicons',
       title: 'Insights',
       description: 'Gain insights into your destiny'
@@ -59,7 +70,7 @@ export default function Dashboard() {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
-  const renderIcon = (slide) => {
+  const renderIcon = (slide: Slide) => {
     if (slide.iconLibrary === 'MaterialCommunityIcons') {
       return <MaterialCommunityIcons name={slide.icon} size={48} color="#FFD700" style={styles.slideIconStyle} />;
     }
@@ -100,49 +111,82 @@ export default function Dashboard() {
   }
 
   return (
-    <LinearGradient colors={['#36010F', '#7b1e05', '#7b1e05']} style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+    <LinearGradient colors={['#36010F', '#922407']} style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         {/* Header */}
-        <Text style={styles.header}>FortunAI</Text>
-
-        {/* Greeting Section */}
-        <View style={styles.greetingSection}>
-          <Text style={styles.greeting}>
-            Hello,{' '}
-            <Text style={styles.userName}>{profile?.name ?? 'User'}</Text>
-          </Text>
-          <Text style={styles.subtitle}>What insight today?</Text>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Welcome, {profile?.name || 'User'}!</Text>
         </View>
 
-        {/* Auto Slider Card */}
-        <View style={styles.sliderContainer}>
-          <TouchableOpacity style={styles.navButton} onPress={prevSlide}>
-            <Ionicons name="chevron-back" size={24} color="#fff" />
+        {/* Carousel */}
+        <View style={styles.carouselContainer}>
+          <TouchableOpacity style={styles.carouselButton} onPress={prevSlide}>
+            <Ionicons name="chevron-back" size={24} color="#FFD700" />
           </TouchableOpacity>
-
-          <View style={styles.slideCard}>
-            {renderIcon(slides[currentSlide])}
-            <Text style={styles.slideTitle}>{slides[currentSlide].title}</Text>
-            <Text style={styles.slideDescription}>{slides[currentSlide].description}</Text>
+          
+          <View style={styles.slideContainer}>
+            <View style={styles.slide}>
+              {renderIcon(slides[currentSlide])}
+              <Text style={styles.slideTitle}>{slides[currentSlide].title}</Text>
+              <Text style={styles.slideDescription}>{slides[currentSlide].description}</Text>
+            </View>
           </View>
-
-          <TouchableOpacity style={styles.navButton} onPress={nextSlide}>
-            <Ionicons name="chevron-forward" size={24} color="#fff" />
+          
+          <TouchableOpacity style={styles.carouselButton} onPress={nextSlide}>
+            <Ionicons name="chevron-forward" size={24} color="#FFD700" />
           </TouchableOpacity>
         </View>
 
-        {/* Discover Button */}
-        <TouchableOpacity style={styles.discoverButton} onPress={() => router.push('/dailyreading')}>
-          <Text style={styles.discoverText}>Discover your insight</Text>
-        </TouchableOpacity>
-      </ScrollView>
+        {/* Navigation Cards */}
+        <View style={styles.cardsContainer}>
+          <TouchableOpacity 
+            style={styles.card} 
+            onPress={() => navigation.navigate('FreeRead')}
+          >
+            <Ionicons name="book-outline" size={32} color="#FFD700" />
+            <Text style={styles.cardTitle}>Free Reading</Text>
+            <Text style={styles.cardDescription}>Get your free destiny reading</Text>
+          </TouchableOpacity>
 
+          <TouchableOpacity 
+            style={styles.card} 
+            onPress={() => navigation.navigate('PairAnalysis')}
+          >
+            <Ionicons name="people-outline" size={32} color="#FFD700" />
+            <Text style={styles.cardTitle}>Pair Analysis</Text>
+            <Text style={styles.cardDescription}>Analyze relationships</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={styles.card} 
+            onPress={() => navigation.navigate('Profile')}
+          >
+            <Ionicons name="person-outline" size={32} color="#FFD700" />
+            <Text style={styles.cardTitle}>Profile</Text>
+            <Text style={styles.cardDescription}>View your profile</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={styles.card} 
+            onPress={() => navigation.navigate('Pricing')}
+          >
+            <Ionicons name="diamond-outline" size={32} color="#FFD700" />
+            <Text style={styles.cardTitle}>Premium Plans</Text>
+            <Text style={styles.cardDescription}>Upgrade your experience</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+      
       <Footer 
-        onPressHome={() => router.replace('/dashboard')} 
-        onPressPlans={() => router.replace('/pricing')} 
-        onPressMain={() => router.replace('/')} 
-        onPressMessages={() => router.replace('/messages')} 
-        onPressProfile={() => router.replace('/profile')} 
+        onPressHome={() => navigation.navigate('Dashboard')} 
+        onPressPlans={() => navigation.navigate('Pricing')} 
+        onPressMain={() => navigation.navigate('Landing')} 
+        onPressMessages={() => navigation.navigate('Messages')} 
+        onPressProfile={() => navigation.navigate('Profile')} 
+        onPressFreeRead={() => navigation.navigate('FreeRead')}
+        onPressDailyReading={() => navigation.navigate('DailyReading')}
+        onPressPairAnalysis={() => navigation.navigate('PairAnalysis')}
+        onPressAskAQuestion={() => navigation.navigate('AskAQuestion')}
       />
     </LinearGradient>
   );
@@ -152,102 +196,78 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  scrollContent: {
-    paddingTop: 60,
-    paddingHorizontal: 24,
-    paddingBottom: 100,
+  scrollContainer: {
+    flexGrow: 1,
+    padding: 20,
   },
   header: {
-    fontSize: 42,
-    fontWeight: '700',
-    color: '#FFD700',
-    textAlign: 'center',
-    marginBottom: 100,
-    letterSpacing: 1.5,
-    textShadowColor: 'rgba(0,0,0,0.3)',
-    textShadowOffset: { width: 0, height: 2 },
-    textShadowRadius: 4,
-  },
-  greetingSection: {
     alignItems: 'center',
-    marginBottom: 50,
-    
+    marginTop: 40,
+    marginBottom: 30,
   },
-  greeting: {
-    fontSize: 35,
+  headerTitle: {
+    fontSize: 28,
+    fontWeight: 'bold',
     color: '#FFD700',
-    fontWeight: '600',
-    textAlign: 'center',
-    marginBottom: 10,
-    fontFamily: 'lucida Console'
-  },
-  userName: {
-    color: '#fff',
-    fontWeight: '700',
-  },
-  subtitle: {
-    fontSize: 18,
-    color: '#FFD700',
-    opacity: 0.9,
     textAlign: 'center',
   },
-  sliderContainer: {
+  carouselContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 50,
-    paddingHorizontal: 10,
+    justifyContent: 'space-between',
+    marginBottom: 30,
   },
-  navButton: {
-    backgroundColor: 'transparent',
+  carouselButton: {
+    padding: 10,
   },
-  slideCard: {
-    backgroundColor: 'rgba(255,255,255,0.15)',
-    borderRadius: 16,
-    paddingVertical: 50,
-    paddingHorizontal: 0,
+  slideContainer: {
     flex: 1,
     alignItems: 'center',
-    marginHorizontal: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 4,
+  },
+  slide: {
+    alignItems: 'center',
+    padding: 20,
   },
   slideIconStyle: {
-    marginBottom: 15,
+    marginBottom: 10,
   },
   slideTitle: {
-    fontSize: 24,
-    fontWeight: '700',
+    fontSize: 20,
+    fontWeight: 'bold',
     color: '#FFD700',
-    textAlign: 'center',
-    marginBottom: 8,
+    marginBottom: 5,
   },
   slideDescription: {
     fontSize: 14,
-    color: '#fff',
+    color: '#FFFFFF',
     textAlign: 'center',
-    opacity: 0.9,
   },
-  discoverButton: {
-    backgroundColor: '#FF8C00',
-    borderRadius: 25,
-    paddingVertical: 16,
-    paddingHorizontal: 40,
-    alignSelf: 'center',
-    marginBottom: 40,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
+  cardsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
-  discoverText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
+  card: {
+    width: (width - 60) / 2,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 15,
+    padding: 20,
+    marginBottom: 20,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 215, 0, 0.3)',
+  },
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#FFD700',
+    marginTop: 10,
+    marginBottom: 5,
+    textAlign: 'center',
+  },
+  cardDescription: {
+    fontSize: 12,
+    color: '#FFFFFF',
     textAlign: 'center',
   },
 });

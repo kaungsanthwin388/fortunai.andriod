@@ -3,16 +3,16 @@
 import { BaziCalculator } from '@/lib/bazi';
 import { generateFreeReading } from '@/lib/deepseek';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-    ActivityIndicator,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import Markdown from 'react-native-markdown-display'; // <-- Using markdown-display
 import Footer from '../components/ui/Footer';
@@ -27,6 +27,7 @@ interface Analysis {
 }
 
 export default function DailyReadingScreen() {
+  const navigation = useNavigation();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
@@ -194,11 +195,15 @@ export default function DailyReadingScreen() {
         </View>
       </ScrollView>
       <Footer
-        onPressHome={() => router.replace('/dashboard')}
-        onPressPlans={() => router.replace('/pricing')}
-        onPressMain={() => router.replace('/')}
-        onPressMessages={() => router.replace('/messages')}
-        onPressProfile={() => router.replace('/profile')}
+        onPressHome={() => navigation.navigate('Dashboard')}
+        onPressPlans={() => navigation.navigate('Pricing')}
+        onPressMain={() => navigation.navigate('Landing')}
+        onPressMessages={() => navigation.navigate('Messages')}
+        onPressProfile={() => navigation.navigate('Profile')}
+        onPressFreeRead={() => navigation.navigate('FreeRead')}
+        onPressDailyReading={() => navigation.navigate('DailyReading')}
+        onPressPairAnalysis={() => navigation.navigate('PairAnalysis')}
+        onPressAskAQuestion={() => navigation.navigate('AskAQuestion')}
       />
     </LinearGradient>
   );

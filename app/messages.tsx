@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import Footer from '@/components/ui/Footer';
+import { useNavigation } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import { supabase } from '../lib/supabase'; // Adjust path if needed
-import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router';
-import Footer from '@/components/ui/Footer';
+import React, { useEffect, useState } from 'react';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { supabase } from '../lib/supabase'; // Adjust path if needed
 
 dayjs.extend(relativeTime);
 
 export default function MessagesScreen() {
-  const router = useRouter();
+  const navigation = useNavigation();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -61,11 +61,15 @@ export default function MessagesScreen() {
         <Text style={styles.emptyMessage}>No notifications available.</Text>
       )}
       <Footer 
-        onPressHome={() => router.replace('/dashboard')} 
-        onPressPlans={() => router.replace('/pricing')} 
-        onPressMain={() => router.replace('/')} 
-        onPressMessages={() => router.replace('/messages')} 
-        onPressProfile={() => router.replace('/profile')} 
+        onPressHome={() => navigation.navigate('Dashboard')} 
+        onPressPlans={() => navigation.navigate('Pricing')} 
+        onPressMain={() => navigation.navigate('Landing')} 
+        onPressMessages={() => navigation.navigate('Messages')} 
+        onPressProfile={() => navigation.navigate('Profile')} 
+        onPressFreeRead={() => navigation.navigate('FreeRead')}
+        onPressDailyReading={() => navigation.navigate('DailyReading')}
+        onPressPairAnalysis={() => navigation.navigate('PairAnalysis')}
+        onPressAskAQuestion={() => navigation.navigate('AskAQuestion')}
       />
     </LinearGradient>
   );

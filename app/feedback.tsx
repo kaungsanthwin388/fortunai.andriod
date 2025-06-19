@@ -1,44 +1,50 @@
 //kyi sin thein//naychi
+import Footer from '@/components/ui/Footer';
+import { useNavigation } from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import {
-  View,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  ScrollView,
+  View,
 } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { router } from 'expo-router';
-import Footer from '../components/ui/Footer';
 
 export default function FeedbackScreen() {
+  const navigation = useNavigation();
+
   return (
-    <LinearGradient colors={['#36010F', '#922407']} style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Send Feedback</Text>
-      </View>
-      <ScrollView contentContainerStyle={styles.content}>
-        <View style={styles.card}>
-          <Text style={styles.sectionTitle}>Share Your Thoughts</Text>
+    <LinearGradient colors={['#36010F', '#7b1e05', '#36010F']} style={{ flex: 1 }}>
+      <ScrollView style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.title}>Send Feedback</Text>
+        </View>
+        <View style={styles.form}>
+          <Text style={styles.label}>Your Feedback</Text>
           <TextInput
             style={styles.input}
             placeholder="Type your feedback here..."
-            placeholderTextColor="#ccc"
+            placeholderTextColor="#aaa"
             multiline
             numberOfLines={6}
           />
-          <TouchableOpacity style={styles.submitButton}>
-            <Text style={styles.submitButtonText}>Submit Feedback</Text>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Submit</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
-      <Footer 
-        onPressHome={() => router.replace('/dashboard')} 
-        onPressPlans={() => router.replace('/pricing')} 
-        onPressMain={() => router.replace('/')} 
-        onPressMessages={() => router.replace('/messages')} 
-        onPressProfile={() => router.replace('/profile')} 
+      <Footer
+        onPressHome={() => navigation.navigate('Dashboard')}
+        onPressPlans={() => navigation.navigate('Pricing')}
+        onPressMain={() => navigation.navigate('Landing')}
+        onPressMessages={() => navigation.navigate('Messages')}
+        onPressProfile={() => navigation.navigate('Profile')}
+        onPressFreeRead={() => navigation.navigate('FreeRead')}
+        onPressDailyReading={() => navigation.navigate('DailyReading')}
+        onPressPairAnalysis={() => navigation.navigate('PairAnalysis')}
+        onPressAskAQuestion={() => navigation.navigate('AskAQuestion')}
       />
     </LinearGradient>
   );
@@ -47,59 +53,46 @@ export default function FeedbackScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 20,
   },
   header: {
-    backgroundColor: 'transparent',
-    paddingVertical: 16,
-    paddingHorizontal: 16,
+    marginBottom: 20,
     alignItems: 'center',
-    textAlign: 'center',
   },
-  headerTitle: {
-    fontSize: 30,
+  title: {
+    fontSize: 28,
     fontWeight: 'bold',
-    color: '#fff',
-    marginTop: 20,
+    color: '#FFD700',
   },
-  content: {
-    padding: 16,
-    marginBottom: 100,
-  },
-  card: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: 16,
+  form: {
+    backgroundColor: 'rgba(255,255,255,0.05)',
+    borderRadius: 10,
     padding: 20,
-    marginVertical: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 6,
   },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#FFB74D',
-    marginBottom: 12,
+  label: {
+    color: '#fff',
+    fontSize: 16,
+    marginBottom: 10,
   },
   input: {
-    backgroundColor: '#1E1E1E',
+    backgroundColor: '#181f2a',
+    color: '#fff',
     borderRadius: 8,
     padding: 12,
-    color: '#fff',
-    textAlignVertical: 'top',
-    minHeight: 120,
+    fontSize: 16,
     marginBottom: 20,
+    minHeight: 100,
+    textAlignVertical: 'top',
   },
-  submitButton: {
-    backgroundColor: '#B71C1C',
-    paddingVertical: 12,
+  button: {
+    backgroundColor: '#FFD700',
     borderRadius: 8,
+    paddingVertical: 14,
     alignItems: 'center',
   },
-  submitButtonText: {
-    color: '#fff',
+  buttonText: {
+    color: '#601704',
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 18,
   },
 });

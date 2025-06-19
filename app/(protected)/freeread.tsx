@@ -488,7 +488,17 @@ export default function FreeAnalysisPage() {
           <ActivityIndicator size="large" color="#8B5CF6" />
           <Text style={styles.loadingText}>Loading your destiny reading...</Text>
         </View>
-        <Footer />
+        <Footer
+          onPressHome={() => router.replace('/dashboard')}
+          onPressPlans={() => router.replace('/pricing')}
+          onPressMain={() => router.replace('/')}
+          onPressMessages={() => router.replace('/messages')}
+          onPressProfile={() => router.replace('/profile')}
+          onPressFreeRead={() => router.replace('/freeread')}
+          onPressDailyReading={() => router.replace('/dailyreading')}
+          onPressPairAnalysis={() => router.replace('/pairanalysis')}
+          onPressAskAQuestion={() => router.replace('/askaquestion')}
+        />
       </LinearGradient>
     );
   }
@@ -506,13 +516,6 @@ export default function FreeAnalysisPage() {
             <Text style={styles.backToDashboardText}>Back to Dashboard</Text>
           </TouchableOpacity>
         </View>
-        {/* <Footer
-        onPressHome={() => router.replace('/dashboard')}
-        onPressPlans={() => router.replace('/pricing')}
-        onPressMain={() => router.replace('/')}
-        onPressMessages={() => router.replace('/messages')}
-        onPressProfile={() => router.replace('/profile')}
-      /> */}
       </LinearGradient>
     );
   }
@@ -531,16 +534,6 @@ export default function FreeAnalysisPage() {
     <LinearGradient colors={['#36010F', '#922407']} style={styles.container}>
       <Stack.Screen options={{ headerShown: false }} />
       
-      {/* <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="white" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Your Destiny Reading</Text>
-        <TouchableOpacity onPress={() => router.push('/dashboard')} style={styles.dashboardButton}>
-          <Text style={styles.dashboardText}>Back to Dashboard</Text>
-        </TouchableOpacity>
-      </View> */}
-
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.introSection}>
           <Text style={styles.introTitle}>Your Destiny Reading</Text>
@@ -552,17 +545,14 @@ export default function FreeAnalysisPage() {
             <View style={styles.pillar}>
               <Ionicons name="person-circle" size={24} color="#FFB74D" />
               <Text style={styles.pillarTitle}>Personality Overview</Text>
-              {/* <Text style={styles.pillarDescription}>Core traits and natural tendencies</Text> */}
             </View>
             <View style={styles.pillar}>
               <Ionicons name="trending-up" size={24} color="#4ADE80" />
               <Text style={styles.pillarTitle}>Strengths & Opportunities</Text>
-              {/* <Text style={styles.pillarDescription}>SWOT analysis for personal growth</Text> */}
             </View>
             <View style={styles.pillar}>
               <Ionicons name="compass" size={24} color="#60A5FA" />
               <Text style={styles.pillarTitle}>Life Path Suggestions</Text>
-              {/* <Text style={styles.pillarDescription}>Guidance for your journey ahead</Text> */}
             </View>
           </View>
         </View>
@@ -576,19 +566,6 @@ export default function FreeAnalysisPage() {
             </View>
             <View style={styles.sectionCard}>
               <RenderContent content={personalityContent} type="summary" />
-              {/* {personalitySections.map((section, index) => {
-                const title = section.match(/###\s*(.+)/)?.[1] || `Section ${index + 1}`;
-                return (
-                  <SubSection
-                    key={index}
-                    title={title}
-                    content={section}
-                    icon="star"
-                    color="#FFB74D"
-                    type="summary"
-                  />
-                );
-              })} */}
             </View>
           </View>
         )}
@@ -603,19 +580,6 @@ export default function FreeAnalysisPage() {
             {swotContent ? (
               <>
                 <RenderContent content={swotContent} type="swot" />
-                {/* {swotSections.map((section, index) => {
-                  const title = section.match(/###\s*(.+)/)?.[1] || `Section ${index + 1}`;
-                  return (
-                    <SubSection
-                      key={index}
-                      title={title}
-                      content={section}
-                      icon="checkmark-circle"
-                      color="#4ADE80"
-                      type="swot"
-                    />
-                  );
-                })} */}
               </>
             ) : (
               <GenerateAnalysisButton
@@ -638,19 +602,6 @@ export default function FreeAnalysisPage() {
             {guidanceContent ? (
               <>
                 <RenderContent content={guidanceContent} type="special" />
-                {/* {guidanceSections.map((section, index) => {
-                  const title = section.match(/###\s*(.+)/)?.[1] || `Section ${index + 1}`;
-                  return (
-                    <SubSection
-                      key={index}
-                      title={title}
-                      content={section}
-                      icon="compass"
-                      color="#60A5FA"
-                      type="special"
-                    />
-                  );
-                })} */}
               </>
             ) : (
               <GenerateAnalysisButton
@@ -676,6 +627,10 @@ export default function FreeAnalysisPage() {
         onPressMain={() => router.replace('/')}
         onPressMessages={() => router.replace('/messages')}
         onPressProfile={() => router.replace('/profile')}
+        onPressFreeRead={() => router.replace('/freeread')}
+        onPressDailyReading={() => router.replace('/dailyreading')}
+        onPressPairAnalysis={() => router.replace('/pairanalysis')}
+        onPressAskAQuestion={() => router.replace('/askaquestion')}
       />
     </LinearGradient>
   );

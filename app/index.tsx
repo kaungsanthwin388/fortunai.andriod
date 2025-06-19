@@ -1,5 +1,5 @@
+import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Link } from 'expo-router';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 // This root page will redirect to:
@@ -7,41 +7,44 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 // Later we can add logic to check if the user is signed in and redirect to dashboard
 
 export default function LandingScreen() {
+  const navigation = useNavigation();
   return (
     <LinearGradient
-    colors={['#36010F', '#7b1e05', '#36010F']}
-    start={{ x: 0, y: 0 }}
-    end={{ x: 1, y: 1 }}
-    style={styles.container}
+      colors={['#36010F', '#7b1e05', '#36010F']}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+      style={styles.container}
     >
       {/* Logo */}
       <View style={styles.headerContainer}>
-      <Text style={styles.logo}>
-        Fortun
-        <Text style={styles.logoAccent}>AI</Text>
-      </Text>
-      <LinearGradient
-            colors={['#FFD700', '#FF9900', '#FF5C39']}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={styles.headerLine}
-          />
+        <Text style={styles.logo}>
+          Fortun
+          <Text style={styles.logoAccent}>AI</Text>
+        </Text>
+        <LinearGradient
+          colors={['#FFD700', '#FF9900', '#FF5C39']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          style={styles.headerLine}
+        />
       </View>
       {/* Buttons */}
       <View style={styles.buttons}>
         {/* Sign In Button */}
-        <Link href="/signin" asChild>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Sign In</Text>
-          </TouchableOpacity>
-        </Link>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Signin')}
+        >
+          <Text style={styles.buttonText}>Sign In</Text>
+        </TouchableOpacity>
 
         {/* Register Button */}
-        <Link href="/register" asChild>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Register</Text>
-          </TouchableOpacity>
-        </Link>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Register')}
+        >
+          <Text style={styles.buttonText}>Register</Text>
+        </TouchableOpacity>
       </View>
     </LinearGradient>
   );
@@ -72,6 +75,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     borderRadius: 15, // Rounded corners for the buttons
     alignItems: 'center',
+    marginBottom: 16, // Add spacing between buttons
   },
   buttonText: {
     fontSize: 18,

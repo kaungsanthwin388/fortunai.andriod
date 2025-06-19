@@ -1,5 +1,5 @@
+import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Link } from 'expo-router';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 // This root page will redirect to:
@@ -7,6 +7,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 // Later we can add logic to check if the user is signed in and redirect to dashboard
 
 export default function LandingScreen() {
+  const navigation = useNavigation();
+
   return (
     <LinearGradient
     colors={['#36010F', '#7b1e05', '#36010F']}
@@ -30,18 +32,20 @@ export default function LandingScreen() {
       {/* Buttons */}
       <View style={styles.buttons}>
         {/* Sign In Button */}
-        <Link href="/pricing" asChild>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Sign In</Text>
-          </TouchableOpacity>
-        </Link>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Signin')}
+        >
+          <Text style={styles.buttonText}>Sign In</Text>
+        </TouchableOpacity>
 
         {/* Register Button */}
-        <Link href="/register" asChild>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Register</Text>
-          </TouchableOpacity>
-        </Link>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('Register')}
+        >
+          <Text style={styles.buttonText}>Register</Text>
+        </TouchableOpacity>
       </View>
     </LinearGradient>
   );
@@ -73,6 +77,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     borderRadius: 15, // Rounded corners for the buttons
     alignItems: 'center',
+    marginBottom: 16, // Add spacing between buttons
   },
   buttonText: {
     fontSize: 18,
