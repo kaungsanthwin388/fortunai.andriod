@@ -1,21 +1,28 @@
 {
   "expo": {
     "scheme": "fortunai",
-    "name": "fortunai",
+    "name": "FortunAI",
     "slug": "fortunai",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#36010F"
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.fortunai.app"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.fortunai.app"
+      "package": "com.fortunai.app",
+      "versionCode": 2
     },
     "web": {
       "bundler": "metro",
